@@ -15,23 +15,26 @@ const MONGO_URI = process.env.MONGO_URI;
 
 if (!MONGO_URI) {
   console.error("❌ MONGO_URI is missing in .env file");
-  process.exit(1); // stop server if no DB URI
+  process.exit(1);
 }
 
-mongoose.connect(MONGO_URI, {
-  serverSelectionTimeoutMS: 5000,
-  ssl: true, // Atlas requires SSL
-})
-.then(() => console.log("✅ MongoDB connected successfully"))
-.catch((err) => console.error("❌ MongoDB connection error:", err));
-
+mongoose
+  .connect(MONGO_URI)
+  .then(() => console.log("✅ MongoDB connected successfully"))
+  .catch((err) => console.error("❌ MongoDB connection error:", err.message));
 
 // Routes
+// Routes
+const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
+const roomRoutes = require("./routes/roomRoutes");
 
+app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/bookings", bookingRoutes);
+app.use("/api/rooms", roomRoutes);
+
 
 // Test route
 app.get("/", (req, res) => {
@@ -42,6 +45,3 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
   console.log(`✅ Server running at http://localhost:${PORT}`);
 });
-
-const authRoutes = require("./routes/authRoutes");
-app.use("/auth", authRoutes);

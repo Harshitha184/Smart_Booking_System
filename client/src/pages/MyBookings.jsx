@@ -14,37 +14,30 @@ export default function MyBookings() {
   };
 
   return (
-    <div className="p-6">
-      <h2 className="text-xl font-bold">My Bookings</h2>
-      <table className="w-full border mt-3">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border p-2">Room</th>
-            <th className="border p-2">Date</th>
-            <th className="border p-2">Time</th>
-            <th className="border p-2">Action</th>
+  <div className="mybookings-container">
+    <h2>My Bookings</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Room</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {bookings.map((b) => (
+          <tr key={b._id}>
+            <td>{b.roomId?.name}</td>
+            <td>{b.date}</td>
+            <td>{b.startTime} - {b.endTime}</td>
+            <td>
+              <button onClick={() => cancel(b._id)}>Cancel</button>
+            </td>
           </tr>
-        </thead>
-        <tbody>
-          {bookings.map((b) => (
-            <tr key={b._id}>
-              <td className="border p-2">{b.roomId?.name}</td>
-              <td className="border p-2">{b.date}</td>
-              <td className="border p-2">
-                {b.startTime} - {b.endTime}
-              </td>
-              <td className="border p-2">
-                <button
-                  onClick={() => cancel(b._id)}
-                  className="text-red-600"
-                >
-                  Cancel
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
+        ))}
+      </tbody>
+    </table>
+  </div>
+);
 }
