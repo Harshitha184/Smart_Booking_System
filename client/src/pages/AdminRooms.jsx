@@ -1,44 +1,72 @@
-import React, { useState, useEffect } from "react";
-import API from "../api/axios";
+ import { useState } from "react";
 
 export default function AdminRooms() {
   const [rooms, setRooms] = useState([]);
   const [name, setName] = useState("");
   const [capacity, setCapacity] = useState("");
-  const [location, setLocation] = useState("");
 
-  const load = () => API.get("/rooms").then((res) => setRooms(res.data));
-  useEffect(load, []);
-
-  const addRoom = async (e) => {
+  const addRoom = (e) => {
     e.preventDefault();
-    await API.post("/rooms", { name, capacity, location });
-    setName(""); setCapacity(""); setLocation("");
-    load();
-  };
 
-  const remove = async (id) => {
-    await API.delete(`/rooms/${id}`);
-    load();
+    if (!name || !capacity) {
+      alert("Please fill all fields");
+      return;
+    }
+
+    const newRoom = {
+      id: Date.now(),
+      name,
+      capacity,
+    };
+
+    setRooms([...rooms, newRoom]);
+    setName("");
+    setCapacity("");
   };
 
   return (
-    <div className="p-6 space-y-4">
-      <h2 className="text-xl font-bold">Admin – Rooms</h2>
-      <form onSubmit={addRoom} className="space-y-2">
-        <input value={name} onChange={e=>setName(e.target.value)} placeholder="Name" className="border p-2 rounded w-full"/>
-        <input value={capacity} onChange={e=>setCapacity(e.target.value)} placeholder="Capacity" className="border p-2 rounded w-full"/>
-        <input value={location} onChange={e=>setLocation(e.target.value)} placeholder="Location" className="border p-2 rounded w-full"/>
-        <button className="p-2 bg-black text-white rounded">Add Room</button>
+    <div className="page-fade">
+
+    <div style={{ padding: "20px" }}>
+      <h2>Admin – Manage Rooms</h2>
+
+      {/* Add Room Form */}
+      <form onSubmit={addRoom} style={{ marginBottom: "20px" }}>
+        <input
+          placeholder="Room Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          style={{ marginRight: "10px" }}
+        />
+
+        <input
+          type="number"
+          placeholder="Capacity"
+          value={capacity}
+          onChange={(e) => setCapacity(e.target.value)}
+          style={{ marginRight: "10px" }}
+        />
+
+        <button>Add Room</button>
       </form>
-      <ul>
-        {rooms.map(r => (
-          <li key={r._id} className="flex justify-between border p-2 rounded mt-2">
-            {r.name} ({r.capacity}) – {r.location}
-            <button onClick={()=>remove(r._id)} className="text-red-600">Delete</button>
-          </li>
-        ))}
-      </ul>
+
+      {/* Rooms List */}
+      {rooms.length === 0 && <p>No rooms added yet</p>}
+
+      {rooms.map((room) => (
+        <div
+          key={room.id}
+          style={{
+            border: "1px solid #ccc",
+            padding: "10px",
+            marginBottom: "10px",
+          }}
+        >
+          <p><strong>{room.name}</strong></p>
+          <p>Capacity: {room.capacity}</p>
+        </div>
+      ))}
+    </div>
     </div>
   );
 }

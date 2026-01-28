@@ -14,49 +14,34 @@ export default function MyBookings() {
     localStorage.setItem("mockBookings", JSON.stringify(updated));
   };
 
-   return (
-  <div style={{ padding: "20px" }}>
-    <h2>My Bookings</h2>
+     return (
+      <div className="page-fade">
 
-    {bookings.length === 0 && (
-      <p style={{ marginTop: "20px", color: "#555" }}>
-        No bookings yet. Please book a room.
-      </p>
-    )}
+  <div>
+    <h2 style={{ marginBottom: "20px" }}>My Bookings</h2>
 
-    {bookings.map((b, index) => (
-      <div
-        key={index}
-        style={{
-          border: "1px solid #ccc",
-          borderRadius: "8px",
-          padding: "15px",
-          marginTop: "15px",
-          maxWidth: "400px",
-        }}
-      >
-        <p><strong>Date:</strong> {b.date}</p>
-        <p>
-          <strong>Time:</strong> {b.startTime} – {b.endTime}
-        </p>
+    {bookings.length === 0 && <p>No bookings yet</p>}
 
-        <button
-          onClick={() => cancelBooking(index)}
-          style={{
-            marginTop: "10px",
-            padding: "6px 12px",
-            backgroundColor: "#e74c3c",
-            color: "#fff",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer",
-          }}
-        >
-          Cancel
-        </button>
-      </div>
-    ))}
+    <div className="dashboard-grid">
+     {bookings.map((b, index) => (
+  <div
+    key={b._id ?? b.id ?? index}
+    className="dashboard-card"
+  >
+    <p><strong>Date:</strong> {b.date}</p>
+    <p>
+      <strong>Time:</strong> {b.startTime} – {b.endTime}
+    </p>
+  </div>
+))}
+
+
+
+    </div>
+  </div>
   </div>
 );
+
+
 
 }

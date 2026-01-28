@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+ import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 
 export default function Navbar() {
@@ -7,19 +7,52 @@ export default function Navbar() {
 
   const handleLogout = () => {
     logout();
-    navigate("/");
+    navigate("/login");
   };
 
   return (
-    <nav style={{ padding: "10px", borderBottom: "1px solid #ccc" }}>
-      <Link to="/rooms" style={{ marginRight: "10px" }}>Rooms</Link>
-      <Link to="/my-bookings" style={{ marginRight: "10px" }}>My Bookings</Link>
+    <nav className="navbar">
+      <h3 className="nav-brand">Smart Booking</h3>
 
-      {user && (
-        <button onClick={handleLogout} style={{ marginLeft: "20px" }}>
-          Logout
-        </button>
-      )}
+      <div className="nav-links">
+         <NavLink
+  to="/rooms"
+  className={({ isActive }) =>
+    isActive ? "nav-link active" : "nav-link"
+  }
+>
+  Rooms
+</NavLink>
+
+ <NavLink to="/my-bookings" className={({ isActive }) =>
+  isActive ? "nav-link active" : "nav-link"
+}>
+  My Bookings
+</NavLink>
+
+        {/* ✅ ADMIN LINKS (THIS IS IMPORTANT PART) */}
+        {user?.role === "admin" && (
+          <>
+             <NavLink to="/admin/rooms" className={({ isActive }) =>
+  isActive ? "nav-link active" : "nav-link"
+}>
+  Admin Rooms
+</NavLink>
+
+ <NavLink to="/admin/bookings" className={({ isActive }) =>
+  isActive ? "nav-link active" : "nav-link"
+}>
+  Admin Bookings
+</NavLink>
+          </>
+        )}
+
+        {user && (
+          <button onClick={handleLogout} className="logout-btn">
+            Logout
+          </button>
+        )}
+      </div>
     </nav>
   );
 }

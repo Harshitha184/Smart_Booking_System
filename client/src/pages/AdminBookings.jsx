@@ -1,48 +1,50 @@
 import React, { useState } from "react";
 import API from "../api/axios";
 
-export default function AdminBookings() {
-  const [date, setDate] = useState("");
-  const [bookings, setBookings] = useState([]);
-
-  const fetch = async () => {
-    const res = await API.get(`/bookings?date=${date}`);
-    setBookings(res.data);
-  };
+ export default function AdminBookings() {
+  // Mock bookings (frontend-only)
+  const bookings = [
+    {
+      id: 1,
+      room: "Conference Room",
+      user: "Student A",
+      date: "2025-01-10",
+      time: "10:00 - 11:00",
+    },
+    {
+      id: 2,
+      room: "Lab 1",
+      user: "Student B",
+      date: "2025-01-10",
+      time: "11:00 - 12:00",
+    },
+  ];
 
   return (
-    <div className="p-6">
-      <h2 className="text-xl font-bold">Admin – Bookings</h2>
-      <input
-        type="date"
-        value={date}
-        onChange={(e) => setDate(e.target.value)}
-        className="border p-2 rounded mr-2"
-      />
-      <button onClick={fetch} className="p-2 bg-blue-600 text-white rounded">
-        Load Bookings
-      </button>
+    <div className="page-fade">
 
-      <table className="w-full border mt-3">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border p-2">User</th>
-            <th className="border p-2">Room</th>
-            <th className="border p-2">Time</th>
-          </tr>
-        </thead>
-        <tbody>
-          {bookings.map((b) => (
-            <tr key={b._id}>
-              <td className="border p-2">{b.userId?.email}</td>
-              <td className="border p-2">{b.roomId?.name}</td>
-              <td className="border p-2">
-                {b.date} {b.startTime}-{b.endTime}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div style={{ padding: "20px" }}>
+      <h2>Admin – View Bookings</h2>
+
+      {bookings.length === 0 && <p>No bookings found</p>}
+
+      {bookings.map((b) => (
+        <div
+          key={b.id}
+          style={{
+            border: "1px solid #ccc",
+            padding: "12px",
+            marginBottom: "10px",
+            borderRadius: "6px",
+          }}
+        >
+          <p><strong>Room:</strong> {b.room}</p>
+          <p><strong>User:</strong> {b.user}</p>
+          <p><strong>Date:</strong> {b.date}</p>
+          <p><strong>Time:</strong> {b.time}</p>
+        </div>
+      ))}
+    </div>
     </div>
   );
 }
