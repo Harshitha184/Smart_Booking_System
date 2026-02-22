@@ -11,4 +11,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <App />
     </AuthProvider>
   </React.StrictMode>
+<<<<<<< HEAD
 );
+=======
+);
+>>>>>>> 8b86cb27bdedb488488f98b6633d1d75248945a2

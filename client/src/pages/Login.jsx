@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+ import React, { useState } from "react";
 import API from "../api/axios";
 import { useAuth } from "../auth/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
@@ -14,6 +14,7 @@ export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
+<<<<<<< HEAD
   const handleLogin = async (e) => {
     e.preventDefault();
     setErr("");
@@ -243,4 +244,68 @@ export default function Login() {
       `}</style>
     </>
   );
+=======
+   const handleLogin = async (e) => {
+  e.preventDefault();
+  setErr("");
+
+  try {
+    const res = await API.post("/auth/login", {
+      email,
+      password,
+    });
+
+    console.log("LOGIN RESPONSE:", res.data);
+
+    // ✅ FLATTEN the user object
+    login({
+      token: res.data.token,
+      role: res.data.user.role,
+      name: res.data.user.name,
+      id: res.data.user.id,
+    });
+
+    navigate("/dashboard");
+
+  } catch (error) {
+    setErr("Login failed");
+  }
+};
+
+
+    return (
+  <div className="auth-page">
+    <div className="auth-card">
+      <h1 className="auth-title">Smart Booking</h1>
+      <p className="auth-subtitle">
+        Login to continue booking rooms
+      </p>
+
+      {err && <p className="error">{err}</p>}
+
+      <form onSubmit={handleLogin}>
+        <input
+          placeholder="Email"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <input
+          type="password"
+          placeholder="Password"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <button className="auth-btn">Login</button>
+      </form>
+
+      <p className="auth-footer">
+        Don’t have an account?{" "}
+        <Link to="/register">Register</Link>
+      </p>
+    </div>
+  </div>
+);
+
+
+>>>>>>> 8b86cb27bdedb488488f98b6633d1d75248945a2
 }

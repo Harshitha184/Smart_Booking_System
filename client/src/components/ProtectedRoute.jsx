@@ -6,3 +6,4 @@ import { useAuth } from "../auth/AuthContext";
   const { user } = useAuth();
   return user ? children : <Navigate to="/login" replace />;
 }
+

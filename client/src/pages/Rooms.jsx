@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useEffect, useState } from "react";
 import API from "../api/axios";
 
@@ -60,10 +61,44 @@ export default function Rooms() {
 
     } catch (err) {
       setError(err.response?.data?.message || "Booking failed");
+=======
+ import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+export default function Rooms() {
+  const [date, setDate] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!date || !startTime || !endTime) {
+      alert("Please select date and time");
+      return;
+>>>>>>> 8b86cb27bdedb488488f98b6633d1d75248945a2
     }
+
+    if (startTime >= endTime) {
+      alert("End time must be after start time");
+      return;
+    }
+
+    const newBooking = { date, startTime, endTime };
+
+    const existing =
+      JSON.parse(localStorage.getItem("mockBookings")) || [];
+    localStorage.setItem(
+      "mockBookings",
+      JSON.stringify([...existing, newBooking])
+    );
+
+    navigate("/my-bookings");
   };
 
   return (
+<<<<<<< HEAD
     <div style={{ padding: "20px" }}>
       <h2>Available Rooms</h2>
 
@@ -104,33 +139,50 @@ export default function Rooms() {
           <h3>Book {selectedRoom.name}</h3>
 
           {/* Date */}
+=======
+    <div className="page-fade rooms-page">
+      <h2 className="rooms-title">Book a Room</h2>
+
+      <div className="rooms-container">
+        <form onSubmit={handleSubmit}>
+          <label>Date</label>
+>>>>>>> 8b86cb27bdedb488488f98b6633d1d75248945a2
           <input
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
           />
 
+<<<<<<< HEAD
           <br /><br />
 
           {/* Time Selection */}
           <label>Start Time:</label>
           <br />
+=======
+          <label>Start Time</label>
+>>>>>>> 8b86cb27bdedb488488f98b6633d1d75248945a2
           <input
             type="time"
             value={startTime}
             onChange={(e) => setStartTime(e.target.value)}
           />
 
+<<<<<<< HEAD
           <br /><br />
 
           <label>End Time:</label>
           <br />
+=======
+          <label>End Time</label>
+>>>>>>> 8b86cb27bdedb488488f98b6633d1d75248945a2
           <input
             type="time"
             value={endTime}
             onChange={(e) => setEndTime(e.target.value)}
           />
 
+<<<<<<< HEAD
           <br /><br />
 
           <button onClick={bookRoom}>Confirm Booking</button>
@@ -158,6 +210,11 @@ export default function Rooms() {
           )}
         </div>
       )}
+=======
+          <button>Book</button>
+        </form>
+      </div>
+>>>>>>> 8b86cb27bdedb488488f98b6633d1d75248945a2
     </div>
   );
 }
