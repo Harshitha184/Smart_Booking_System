@@ -34,23 +34,28 @@ export default function VerifyOtp() {
   };
 
   return (
-    <div className="auth-page">
-      <div className="auth-card">
-        <h2>Verify OTP</h2>
+  <div className="auth-wrapper">
+    <div className="auth-card">
+      <h2>Verify OTP</h2>
 
-        {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && (
+        <p style={{ color: "red", marginBottom: "10px" }}>
+          {error}
+        </p>
+      )}
 
-        <form onSubmit={handleVerifyOtp}>
-          <input
-            type="text"
-            placeholder="Enter OTP"
-            value={otp}
-            onChange={(e) => setOtp(e.target.value)}
-            required
-          />
-          <button>Verify OTP</button>
-        </form>
-      </div>
+      <form onSubmit={handleVerifyOtp}>
+        <input
+          type="text"
+          placeholder="Enter OTP"
+          value={otp}
+          onChange={(e) => setOtp(e.target.value)}
+          required
+        />
+
+        <button type="submit">Verify OTP</button>
+      </form>
     </div>
-  );
+  </div>
+);
 }

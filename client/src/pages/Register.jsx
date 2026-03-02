@@ -1,16 +1,18 @@
-import React, { useState } from "react";
-import API from "../api/axios";
+ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import API from "../api/axios";
 
 export default function Register() {
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("student");
   const [err, setErr] = useState("");
-  const navigate = useNavigate();
+  const [role, setRole] = useState("student");
 
-  const submit = async (e) => {
+ 
+  const handleRegister = async (e) => {
     e.preventDefault();
     setErr("");
 
@@ -22,61 +24,68 @@ export default function Register() {
         role,
       });
 
+      alert("Registration successful!");
       navigate("/login");
-    } catch (e) {
-      setErr(e.response?.data?.message || "Registration failed");
+    } catch (error) {
+      setErr(error.response?.data?.message || "Registration failed");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <form onSubmit={submit} className="w-full max-w-sm p-6 border rounded space-y-3">
-        <h2 className="text-xl font-medium">Register</h2>
+    <div className="auth-wrapper">
+      <div className="auth-card">
+        <h2>Create Account</h2>
 
-        {err && <div className="text-red-600">{err}</div>}
+        {err && <p className="error">{err}</p>}
+<div className="role-switch">
+  <button
+    type="button"
+    className={role === "student" ? "active" : ""}
+    onClick={() => setRole("student")}
+  >
+    Student
+  </button>
 
-        <input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Name"
-          className="w-full border p-2 rounded"
-        />
+  <button
+    type="button"
+    className={role === "admin" ? "active" : ""}
+    onClick={() => setRole("admin")}
+  >
+    Admin
+  </button>
+</div>
+        <form onSubmit={handleRegister}>
+          <input
+            type="text"
+            placeholder="Full Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
 
-        <input
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Email"
-          className="w-full border p-2 rounded"
-        />
+          <input
+            type="email"
+            placeholder="Email Address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
 
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-          className="w-full border p-2 rounded"
-        />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
 
-        <select
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-          className="w-full border p-2 rounded"
-        >
-          <option value="student">Student</option>
-          <option value="admin">Admin</option>
-        </select>
+          <button type="submit">Register</button>
+        </form>
 
-        <button className="w-full p-2 bg-black text-white rounded">
-          Sign up
-        </button>
-
-        <div className="text-sm mt-2">
-          Already have an account?{" "}
-          <Link className="text-blue-600" to="/login">
-            Login
-          </Link>
-        </div>
-      </form>
+        <p className="switch-text">
+          Already have an account? <Link to="/login">Login</Link>
+        </p>
+      </div>
     </div>
   );
 }

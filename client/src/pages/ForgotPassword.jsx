@@ -27,24 +27,25 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="auth-page">
-      <div className="auth-card">
-        <h2>Forgot Password</h2>
+  <div className="auth-wrapper">
+    <div className="auth-card">
+      <h2>Forgot Password</h2>
 
-        {message && <p style={{ color: "green" }}>{message}</p>}
-        {error && <p style={{ color: "red" }}>{error}</p>}
+      {message && <p style={{ color: "green", marginBottom: "10px" }}>{message}</p>}
+      {error && <p style={{ color: "red", marginBottom: "10px" }}>{error}</p>}
 
-        <form onSubmit={handleSendOtp}>
-          <input
-            type="email"
-            placeholder="Enter your registered email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <button>Send OTP</button>
-        </form>
-      </div>
+      <form onSubmit={handleSendOtp}>
+        <input
+          type="email"
+          placeholder="Enter your registered email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+
+        <button type="submit">Send OTP</button>
+      </form>
     </div>
-  );
+  </div>
+);
 }
